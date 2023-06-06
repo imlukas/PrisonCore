@@ -1,0 +1,10 @@
+vip-pickaxe:
+  type: pickaxe
+  item:
+    name: "&6VIP Pickaxe"
+    glow: true
+    type: DIAMOND_PICKAXE
+  default-enchantments:
+    jackhammer: 5
+    efficiency: 5
+    unbreaking: 5

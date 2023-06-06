@@ -1,0 +1,5 @@
+messages:
+  use-actionbar: true # if true, the messages will be sent to the actionbar instead of the chat
+  use-prefix: true # NOTE: this does not disable %prefix% - Messages in a list of messages will not have prefix by default. You need to use the %prefix%.
+  prefix: "&d&l[InventorySwapper]" # prefix to appear besides the messages, use %prefix% to force a prefix onto a message
+  arrow: "->" # arrow to appear before the messages [Withdrawer] >> This is a message

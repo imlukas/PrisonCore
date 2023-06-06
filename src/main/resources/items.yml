@@ -1,0 +1,7 @@
+default-pickaxe:
+  item:
+    name: "&6Default Pickaxe"
+    glow: true
+    type: DIAMOND_PICKAXE
+  enchantments:
+    jackhammer: 5

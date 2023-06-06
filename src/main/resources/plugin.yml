@@ -1,0 +1,4 @@
+name: PrisonCore
+version: '${version}'
+main: me.imlukas.prisoncore.PrisonCore
+api-version: 1.19
