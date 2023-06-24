@@ -6,6 +6,7 @@ import com.mojang.authlib.properties.PropertyMap;
 import me.imlukas.prisoncore.utils.text.TextUtils;
 import org.apache.commons.lang3.Validate;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemFlag;
@@ -162,12 +163,9 @@ public class ItemBuilder {
     }
 
     public ItemBuilder enchants(ConfigurationSection section) {
-        for (String str : section.getKeys(false)) {
-            String name = section.getString(str + ".enchant-type");
-            int level = section.getInt(str + ".level");
-
-            Enchantment enchant = Enchantment.getByName(name);
-
+        for (String enchantmentName : section.getKeys(false)) {
+            int level = section.getInt(enchantmentName);
+            Enchantment enchant = Enchantment.getByKey(NamespacedKey.minecraft(enchantmentName));
             enchantments.put(enchant, level);
         }
         return this;

@@ -1,0 +1,17 @@
+jackhammer:
+  max-level: 10
+  base-percentage: 0.1 # Percentages are between 0.0 and 1.0 where 1.0 is 100%
+  percentage-increase: 0.05
+  display-item:
+    type: DIAMOND_PICKAXE
+    name: '&6Jackhammer'
+    glow: true
+
+blast:
+  max-level: 10
+  base-percentage: 0.1 # Percentages are between 0.0 and 1.0 where 1.0 is 100%
+  percentage-increase: 0.05
+  display-item:
+    type: DIAMOND_PICKAXE
+    name: '&6Blast'
+    glow: true

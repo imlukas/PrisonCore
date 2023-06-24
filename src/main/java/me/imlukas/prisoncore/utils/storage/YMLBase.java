@@ -1,6 +1,7 @@
 package me.imlukas.prisoncore.utils.storage;
 
 import lombok.Getter;
+import me.imlukas.prisoncore.modules.AbstractModule;
 import org.bukkit.configuration.InvalidConfigurationException;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
@@ -18,6 +19,10 @@ public class YMLBase {
     private final FileConfiguration configuration;
     @Getter
     protected File file;
+
+    public YMLBase(AbstractModule module, String name) {
+        this(module.getPlugin(), new File(module.getDataFolder(), name), true);
+    }
 
     public YMLBase(JavaPlugin plugin, String name) {
         this(plugin, new File(plugin.getDataFolder(), name), true);

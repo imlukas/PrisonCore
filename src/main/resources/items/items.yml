@@ -1,0 +1,12 @@
+vip-pickaxe:
+  type: PICKAXE
+  material: DIAMOND_PICKAXE
+  name: "&aVIP Pickaxe"
+  lore:
+    - "&7This is a VIP Pickaxe"
+  enchantable: true
+
+  vanilla-enchantments:
+    unbreaking: 5
+  enchantments:
+    jackhammer: 5

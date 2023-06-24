@@ -1,38 +1,25 @@
 package me.imlukas.prisoncore;
 
 import lombok.Getter;
-import lombok.SneakyThrows;
-import me.imlukas.prisoncore.commands.GiveEnchantCommand;
-import me.imlukas.prisoncore.commands.GivePickaxeCommand;
-import me.imlukas.prisoncore.enchantments.AbstractEnchantment;
-import me.imlukas.prisoncore.enchantments.impl.JackhammerEnchantment;
-import me.imlukas.prisoncore.enchantments.registry.EnchantmentRegistry;
-import me.imlukas.prisoncore.items.AbstractItem;
-import me.imlukas.prisoncore.items.BaseItem;
-import me.imlukas.prisoncore.items.handler.ItemFileHandler;
-import me.imlukas.prisoncore.items.impl.DefaultBasePickaxe;
-import me.imlukas.prisoncore.items.registry.ItemParser;
-import me.imlukas.prisoncore.items.registry.PrisonItemRegistry;
-import me.imlukas.prisoncore.listeners.ConnectionListener;
-import me.imlukas.prisoncore.listeners.EnchantmentTrigger;
-import me.imlukas.prisoncore.listeners.ItemRightClickInteraction;
+import me.imlukas.prisoncore.modules.AbstractModule;
+import me.imlukas.prisoncore.modules.items.ItemModule;
 import me.imlukas.prisoncore.utils.command.SimpleCommand;
 import me.imlukas.prisoncore.utils.command.impl.CommandManager;
 import me.imlukas.prisoncore.utils.messages.MessagesFile;
 import org.bukkit.Bukkit;
-import org.bukkit.configuration.serialization.ConfigurationSerialization;
 import org.bukkit.event.Listener;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @Getter
 public final class PrisonCore extends JavaPlugin {
 
+    private final Map<String, AbstractModule> registeredModules = new HashMap<>();
     private MessagesFile messages;
     private CommandManager commandManager;
-    private EnchantmentRegistry enchantmentRegistry;
-    private PrisonItemRegistry prisonItemRegistry;
-    private ItemFileHandler itemFileHandler;
-    private ItemParser itemParser;
+
 
     @Override
     public void onEnable() {
@@ -40,55 +27,37 @@ public final class PrisonCore extends JavaPlugin {
         commandManager = new CommandManager(this);
         saveDefaultConfig();
 
-        enchantmentRegistry = new EnchantmentRegistry(this);
-        registerDefaultEnchantments();
-
-        itemParser = new ItemParser(this);
-        registerDefaultItems();
-
-        prisonItemRegistry = new PrisonItemRegistry();
-        itemFileHandler = new ItemFileHandler(this);
-
-        registerListener(new ItemRightClickInteraction(this));
-        registerListener(new EnchantmentTrigger(this));
-        registerListener(new ConnectionListener(this));
-
-        registerCommand(new GivePickaxeCommand(this));
-        registerCommand(new GiveEnchantCommand(this));
+        registerModule(new ItemModule());
     }
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+
     }
 
-    private void registerEnchantment(Class<? extends AbstractEnchantment> enchantmentClass) {
-        enchantmentRegistry.registerEnchantment(enchantmentClass);
+    public void registerModule(AbstractModule module) {
+        registeredModules.put(module.getIdentifier(), module);
+        module.init(this);
     }
-
-    @SneakyThrows
-    private void registerItem(AbstractItem item) {
-        registerSerializable(item.getClass());
-        itemParser.registerItem(item);
-    }
-
-    private static void registerSerializable(Class<? extends BaseItem> itemClass) { // Must be static to guarantee that everything works.
-        ConfigurationSerialization.registerClass(itemClass);
-    }
-
-    private void registerDefaultItems() {
-        registerItem(new DefaultBasePickaxe());
-    }
-
-    private void registerDefaultEnchantments() {
-        registerEnchantment(JackhammerEnchantment.class);
-    }
-
-    private void registerListener(Listener listener) {
+    
+    public void registerListener(Listener listener) {
         Bukkit.getPluginManager().registerEvents(listener, this);
     }
 
-    private void registerCommand(SimpleCommand simpleCommand) {
+    public void registerCommand(SimpleCommand simpleCommand) {
         commandManager.register(simpleCommand);
+    }
+
+    public AbstractModule getModule(String moduleIdentifier) {
+        return registeredModules.get(moduleIdentifier);
+    }
+
+    public <T extends AbstractModule> T getModule(Class<T> clazz) {
+        for (AbstractModule module : registeredModules.values()) {
+            if (module.getClass().equals(clazz)) {
+                return (T) module;
+            }
+        }
+        return null;
     }
 }

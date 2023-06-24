@@ -11,7 +11,7 @@ public class ItemConfigurationSerializer {
         applyIfPresent(section, "amount", Integer.class, builder::amount);
         applyIfPresent(section, "name", String.class, builder::name);
         applyIfPresent(section, "lore", List.class, builder::lore);
-        applyIfPresent(section, "enchantments", ConfigurationSection.class, builder::enchants);
+        applyIfPresent(section, "vanilla-enchantments", ConfigurationSection.class, builder::enchants);
         applyIfPresent(section, "flags", List.class, builder::flags);
         applyIfPresent(section, "unbreakable", Boolean.class, builder::unbreakable);
         applyIfPresent(section, "skull-hash", String.class, builder::skullHash);

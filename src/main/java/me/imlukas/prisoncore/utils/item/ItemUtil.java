@@ -21,6 +21,11 @@ public final class ItemUtil {
 
     }
 
+    public static void clearLore(ItemStack itemStack) {
+        ItemMeta meta = itemStack.getItemMeta();
+        meta.setLore(null);
+        itemStack.setItemMeta(meta);
+    }
     public static void addLore(ItemStack itemStack, String... toAdd) {
         ItemMeta meta = itemStack.getItemMeta();
         List<String> lore = meta.getLore();
@@ -179,14 +184,13 @@ public final class ItemUtil {
     }
 
     public static ItemStack setGlowing(ItemStack displayItem, boolean glowing) {
-
         if (!glowing) {
-            displayItem.removeEnchantment(Enchantment.LUCK);
+            displayItem.removeEnchantment(Enchantment.LOYALTY);
             return displayItem;
         }
-        displayItem.getItemMeta().addItemFlags(ItemFlag.HIDE_ENCHANTS);
         ItemMeta meta = displayItem.getItemMeta();
-        meta.addEnchant(Enchantment.LUCK, 123, true);
+        meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
+        meta.addEnchant(Enchantment.LOYALTY, 123, true);
         displayItem.setItemMeta(meta);
         return displayItem;
     }
