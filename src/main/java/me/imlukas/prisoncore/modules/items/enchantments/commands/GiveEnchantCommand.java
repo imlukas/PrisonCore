@@ -6,10 +6,9 @@ import me.imlukas.prisoncore.modules.items.constants.ToolType;
 import me.imlukas.prisoncore.modules.items.enchantments.handler.EnchantmentHandler;
 import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
 import me.imlukas.prisoncore.modules.items.items.cache.PrisonItemCache;
-import me.imlukas.prisoncore.modules.items.items.fetching.PrisonItemFetcher;
+import me.imlukas.prisoncore.modules.items.items.fetching.PrisonItemHandler;
 import me.imlukas.prisoncore.modules.items.items.impl.EnchantableItem;
 import me.imlukas.prisoncore.modules.items.items.impl.PrisonItem;
-import me.imlukas.prisoncore.utils.PDCUtils.PDCWrapper;
 import me.imlukas.prisoncore.utils.command.SimpleCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -17,19 +16,18 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class GiveEnchantCommand implements SimpleCommand {
 
     private final PrisonCore plugin;
     private final PrisonItemCache prisonItemCache;
-    private final PrisonItemFetcher prisonItemFetcher;
+    private final PrisonItemHandler prisonItemHandler;
     private final EnchantmentHandler enchantmentHandler;
 
     public GiveEnchantCommand(ItemModule itemModule) {
         this.plugin = itemModule.getPlugin();
         this.prisonItemCache = itemModule.getPrisonItemCache();
-        this.prisonItemFetcher = itemModule.getPrisonItemFetcher();
+        this.prisonItemHandler = itemModule.getPrisonItemHandler();
         this.enchantmentHandler = itemModule.getEnchantmentHandler();
     }
 
@@ -55,7 +53,7 @@ public class GiveEnchantCommand implements SimpleCommand {
         PrisonItem prisonItem = prisonItemCache.getOrFetch(itemInMainHand);
 
         if (prisonItem == null) {
-            prisonItem = prisonItemFetcher.fetchItem(itemInMainHand);
+            prisonItem = prisonItemHandler.fetchItem(itemInMainHand);
             return;
         }
 

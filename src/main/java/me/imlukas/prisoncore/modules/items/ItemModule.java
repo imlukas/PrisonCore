@@ -11,7 +11,7 @@ import me.imlukas.prisoncore.modules.items.enchantments.listeners.EnchantmentTri
 import me.imlukas.prisoncore.modules.items.enchantments.handler.EnchantmentHandler;
 import me.imlukas.prisoncore.modules.items.enchantments.registry.EnchantmentRegistry;
 import me.imlukas.prisoncore.modules.items.items.cache.PrisonItemCache;
-import me.imlukas.prisoncore.modules.items.items.fetching.PrisonItemFetcher;
+import me.imlukas.prisoncore.modules.items.items.fetching.PrisonItemHandler;
 import me.imlukas.prisoncore.modules.items.items.registry.PrisonItemRegistry;
 import me.imlukas.prisoncore.modules.items.items.command.GiveItemCommand;
 import me.imlukas.prisoncore.modules.items.items.listener.ItemConnectionListener;
@@ -24,7 +24,7 @@ public class ItemModule extends AbstractModule {
     private EnchantmentHandler enchantmentHandler;
 
     private PrisonItemCache prisonItemCache;
-    private PrisonItemFetcher prisonItemFetcher;
+    private PrisonItemHandler prisonItemHandler;
 
     private PrisonItemRegistry prisonItemRegistry;
 
@@ -34,7 +34,7 @@ public class ItemModule extends AbstractModule {
     @Override
     public void onEnable() {
         prisonItemRegistry = new PrisonItemRegistry(this);
-        prisonItemFetcher = new PrisonItemFetcher(this);
+        prisonItemHandler = new PrisonItemHandler(this);
         prisonItemCache = new PrisonItemCache(this);
 
         enchantmentRegistry = new EnchantmentRegistry();

@@ -1,12 +1,10 @@
 package me.imlukas.prisoncore.modules.items.items.impl.builder;
 
 import me.imlukas.prisoncore.modules.items.constants.ToolType;
-import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
 import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
 import me.imlukas.prisoncore.modules.items.items.impl.BaseItem;
 import me.imlukas.prisoncore.modules.items.items.impl.EnchantableItem;
 import me.imlukas.prisoncore.modules.items.items.impl.PrisonItem;
-import me.imlukas.prisoncore.utils.PDCUtils.PDCWrapper;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -32,8 +30,8 @@ public class PrisonItemBuilder {
         return this;
     }
 
-    public PrisonItemBuilder itemType(String displayItemType) {
-        this.identifier = displayItemType;
+    public PrisonItemBuilder identifier(String identifier) {
+        this.identifier = identifier;
         return this;
     }
 

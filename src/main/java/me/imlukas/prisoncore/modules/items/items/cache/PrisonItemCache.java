@@ -2,9 +2,10 @@ package me.imlukas.prisoncore.modules.items.items.cache;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import com.google.common.cache.RemovalListener;
 import me.imlukas.prisoncore.PrisonCore;
 import me.imlukas.prisoncore.modules.items.ItemModule;
-import me.imlukas.prisoncore.modules.items.items.fetching.PrisonItemFetcher;
+import me.imlukas.prisoncore.modules.items.items.fetching.PrisonItemHandler;
 import me.imlukas.prisoncore.modules.items.items.impl.PrisonItem;
 import me.imlukas.prisoncore.utils.PDCUtils.PDCWrapper;
 import org.bukkit.inventory.ItemStack;
@@ -19,12 +20,20 @@ import java.util.concurrent.TimeUnit;
 public class PrisonItemCache {
 
     private final PrisonCore plugin;
-    private final PrisonItemFetcher itemFetcher;
-    private final Cache<UUID, PrisonItem> cache = CacheBuilder.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES).build(); // TODO: add a removal listener to store item data.
+    private final PrisonItemHandler itemHandler;
+    private final Cache<UUID, PrisonItem> cache; // TODO: add a removal listener to store item data.
 
     public PrisonItemCache(ItemModule itemModule) {
         this.plugin = itemModule.getPlugin();
-        this.itemFetcher = itemModule.getPrisonItemFetcher();
+        this.itemHandler = itemModule.getPrisonItemHandler();
+        RemovalListener<UUID, PrisonItem> listener = notification -> {
+            if (notification.getValue() != null) {
+                itemHandler.updateItem(notification.getValue());
+            }
+        };
+        this.cache = CacheBuilder.newBuilder().expireAfterAccess(30, TimeUnit.MINUTES)
+                .removalListener(listener)
+                .build();
     }
 
     public void put(PrisonItem item) {
@@ -32,7 +41,7 @@ public class PrisonItemCache {
     }
 
     public PrisonItem getOrFetch(ItemStack itemStack) {
-        UUID itemId = new PDCWrapper(plugin, itemStack).getUUID("prison-item-id");
+        UUID itemId = new PDCWrapper(plugin, itemStack).getUUID("prisonItemId");
 
         if (itemId == null) {
             return null;
@@ -42,7 +51,7 @@ public class PrisonItemCache {
             return cache.getIfPresent(itemId);
         }
 
-        return itemFetcher.fetchItem(itemStack);
+        return itemHandler.fetchItem(itemStack);
     }
 
 
