@@ -21,10 +21,15 @@ repositories {
     maven {
         url = 'https://repo.codemc.org/repository/maven-public/'
     }
+    // jeff media grub
+    maven {
+        url = 'https://hub.jeff-media.com/nexus/repository/jeff-media-public/'
+    }
 }
 
 dependencies {
     compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
+    implementation 'com.jeff_media:MorePersistentDataTypes:2.4.0'
 
 
     compileOnly 'org.jetbrains:annotations:22.0.0'

@@ -2,6 +2,7 @@ package me.imlukas.prisoncore.modules.items.enchantments.impl;
 
 import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
 import org.bukkit.Material;
+import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
 
 public abstract class AbstractEnchantment implements Enchantment {
@@ -54,4 +55,12 @@ public abstract class AbstractEnchantment implements Enchantment {
         int newLevel = this.level + level;
         this.level = Math.min(newLevel, getMaxLevel());
     }
+
+    /**
+     * Called when the enchantment is going to be triggered.
+     * See also {@link ChanceEnchantment#tryTrigger(Player, ItemStack)}.
+     * @param player The player who triggered the enchantment
+     * @param itemStack The item that triggered the enchantment
+     */
+    public abstract void trigger(Player player, ItemStack itemStack);
 }

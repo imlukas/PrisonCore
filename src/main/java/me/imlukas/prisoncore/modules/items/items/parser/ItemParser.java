@@ -6,10 +6,15 @@ import me.imlukas.prisoncore.modules.items.ItemModule;
 import me.imlukas.prisoncore.modules.items.constants.ToolType;
 import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
 import me.imlukas.prisoncore.modules.items.enchantments.handler.EnchantmentHandler;
-import me.imlukas.prisoncore.modules.items.items.cache.DisplayItemCache;
+import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
+import me.imlukas.prisoncore.modules.items.items.impl.PrisonItem;
+import me.imlukas.prisoncore.modules.items.items.impl.builder.PrisonItemBuilder;
+import me.imlukas.prisoncore.modules.items.items.registry.PrisonItemRegistry;
 import me.imlukas.prisoncore.utils.PDCUtils.PDCWrapper;
 import me.imlukas.prisoncore.utils.item.ItemBuilder;
+import me.imlukas.prisoncore.utils.item.ItemUtil;
 import me.imlukas.prisoncore.utils.storage.YMLBase;
+import me.imlukas.prisoncore.utils.text.TextUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -24,16 +29,15 @@ import java.util.UUID;
  */
 public class ItemParser extends YMLBase {
 
-    private final PrisonCore plugin;
     private final EnchantmentHandler enchantmentHandler;
-    private final DisplayItemCache displayItemCache;
+    private final PrisonItemRegistry prisonItemRegistry;
     private final FileConfiguration config;
 
     public ItemParser(ItemModule module) {
         super(module, "items.yml");
-        this.plugin = module.getPlugin();
+        PrisonCore plugin = module.getPlugin();
         this.enchantmentHandler = module.getEnchantmentHandler();
-        this.displayItemCache = module.getDisplayItemCache();
+        this.prisonItemRegistry = module.getPrisonItemRegistry();
         this.config = getConfiguration();
 
         parse();
@@ -48,10 +52,12 @@ public class ItemParser extends YMLBase {
             boolean isEnchantable = itemSection.getBoolean("enchantable");
             ToolType toolType = ToolType.valueOf(itemSection.getString("type").toUpperCase());
 
+
             ParsedItem parsedItem = new ParsedItem(itemIdentifier, displayItem, isEnchantable, toolType);
 
             if (isEnchantable) {
-                List<Enchantment> enchantmentList = new ArrayList<>();
+
+                List<AbstractEnchantment> enchantmentList = new ArrayList<>();
 
                 ConfigurationSection enchantmentSection = itemSection.getConfigurationSection("enchantments");
                 for (String enchantment : enchantmentSection.getKeys(false)) {
@@ -62,7 +68,7 @@ public class ItemParser extends YMLBase {
                 parsedItem.setEnchantments(enchantmentList);
             }
 
-            displayItemCache.put(itemIdentifier, parsedItem);
+            prisonItemRegistry.put(itemIdentifier, parsedItem);
         }
     }
 

@@ -6,14 +6,10 @@ import org.bukkit.inventory.ItemStack;
 
 public abstract class ChanceEnchantment extends AbstractEnchantment {
 
-    protected int maxLevel;
-    protected double basePercentage, percentageIncrease;
+    protected double basePercentage;
+    protected double percentageIncrease;
 
-    public ChanceEnchantment() {
-        super();
-    }
-
-    public ChanceEnchantment(ParsedEnchantment parsedEnchantment) {
+    protected ChanceEnchantment(ParsedEnchantment parsedEnchantment) {
         super(parsedEnchantment.getLevel(), parsedEnchantment.getMaxLevel(), parsedEnchantment.getDisplayitem());
         this.maxLevel = parsedEnchantment.getMaxLevel();
         this.basePercentage = parsedEnchantment.getBasePercentage();
@@ -22,6 +18,7 @@ public abstract class ChanceEnchantment extends AbstractEnchantment {
 
     /**
      * Gets the chance percentage of the enchantment
+     *
      * @return The chance percentage
      */
     public double getChancePercentage() {
@@ -30,6 +27,7 @@ public abstract class ChanceEnchantment extends AbstractEnchantment {
 
     /**
      * Gets the increase in chance percentage per level
+     *
      * @return The increase in chance percentage per level
      */
     public double getIncreasePerLevel() {
@@ -38,7 +36,8 @@ public abstract class ChanceEnchantment extends AbstractEnchantment {
 
     /**
      * Tries to trigger the enchantment based on the chance percentage
-     * @param player The player who triggered the enchantment
+     *
+     * @param player    The player who triggered the enchantment
      * @param itemStack The item that triggered the enchantment
      * @return Whether the enchantment triggered
      */
@@ -58,11 +57,5 @@ public abstract class ChanceEnchantment extends AbstractEnchantment {
         return false;
     }
 
-    /**
-     * Called when the enchantment is going to be triggered.
-     * See {@link ChanceEnchantment#tryTrigger(Player, ItemStack)} to know when and how this method is called.
-     * @param player The player who triggered the enchantment
-     * @param itemStack The item that triggered the enchantment
-     */
-    public abstract void trigger(Player player, ItemStack itemStack);
+
 }

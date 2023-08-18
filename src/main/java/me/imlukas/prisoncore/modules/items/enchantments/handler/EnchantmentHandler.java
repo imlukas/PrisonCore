@@ -80,8 +80,8 @@ public class EnchantmentHandler extends YMLBase {
         registerEnchantment(identifier, enchantmentClass);
     }
 
-    public Enchantment getEnchantment(String identifier, int level) {
-        Enchantment enchantment = enchantmentRegistry.get(identifier);
+    public AbstractEnchantment getEnchantment(String identifier, int level) {
+        AbstractEnchantment enchantment = enchantmentRegistry.get(identifier);
         enchantment.setLevel(level);
         return enchantment;
     }

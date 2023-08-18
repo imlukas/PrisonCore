@@ -2,39 +2,30 @@ package me.imlukas.prisoncore.modules.items.enchantments.listeners;
 
 import me.imlukas.prisoncore.PrisonCore;
 import me.imlukas.prisoncore.modules.items.ItemModule;
-import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
+import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
 import me.imlukas.prisoncore.modules.items.enchantments.impl.ChanceEnchantment;
-import me.imlukas.prisoncore.modules.items.items.data.PlayerItemData;
+import me.imlukas.prisoncore.modules.items.items.cache.PrisonItemCache;
 import me.imlukas.prisoncore.modules.items.items.impl.EnchantableItem;
 import me.imlukas.prisoncore.modules.items.items.impl.PrisonItem;
-import me.imlukas.prisoncore.modules.items.items.registry.PlayerItemDataRegistry;
-import me.imlukas.prisoncore.utils.PDCUtils.PDCWrapper;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.UUID;
-
 public class EnchantmentTrigger implements Listener {
 
     private final PrisonCore plugin;
-    private final PlayerItemDataRegistry playerItemDataRegistry;
+    private final PrisonItemCache prisonItemCache;
 
     public EnchantmentTrigger(ItemModule itemModule) {
         this.plugin = itemModule.getPlugin();
-        this.playerItemDataRegistry = itemModule.getPlayerItemDataRegistry();
+        this.prisonItemCache = itemModule.getPrisonItemCache();
     }
 
     @EventHandler
     public void onBlockBreak(BlockBreakEvent event) {
         Player player = event.getPlayer();
-        PlayerItemData playerItemData = playerItemDataRegistry.get(player.getUniqueId());
-
-        if (playerItemData == null) {
-            return;
-        }
 
         ItemStack usedItem = player.getInventory().getItemInMainHand();
 
@@ -42,14 +33,7 @@ public class EnchantmentTrigger implements Listener {
             return;
         }
 
-        UUID itemId = new PDCWrapper(plugin, usedItem).getUUID("prison-item-id");
-
-        if (itemId == null) {
-            System.out.println("Item id is null");
-            return;
-        }
-
-        PrisonItem prisonItem = playerItemData.get(itemId);
+        PrisonItem prisonItem = prisonItemCache.getOrFetch(usedItem);
 
         if (prisonItem == null) {
             System.out.println("Prison item is null");
@@ -61,9 +45,9 @@ public class EnchantmentTrigger implements Listener {
             return;
         }
 
-        for (Enchantment enchantment : enchantableItem.getEnchantments()) {
+        for (AbstractEnchantment enchantment : enchantableItem.getEnchantments()) {
             if (!(enchantment instanceof ChanceEnchantment chanceEnchantment)) {
-                System.out.println("Enchantment is not a chance enchantment");
+                enchantment.trigger(player, usedItem);
                 continue;
             }
 

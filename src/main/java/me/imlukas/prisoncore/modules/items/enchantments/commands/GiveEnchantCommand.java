@@ -3,12 +3,12 @@ package me.imlukas.prisoncore.modules.items.enchantments.commands;
 import me.imlukas.prisoncore.PrisonCore;
 import me.imlukas.prisoncore.modules.items.ItemModule;
 import me.imlukas.prisoncore.modules.items.constants.ToolType;
-import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
 import me.imlukas.prisoncore.modules.items.enchantments.handler.EnchantmentHandler;
-import me.imlukas.prisoncore.modules.items.items.data.PlayerItemData;
+import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
+import me.imlukas.prisoncore.modules.items.items.cache.PrisonItemCache;
+import me.imlukas.prisoncore.modules.items.items.fetching.PrisonItemFetcher;
 import me.imlukas.prisoncore.modules.items.items.impl.EnchantableItem;
 import me.imlukas.prisoncore.modules.items.items.impl.PrisonItem;
-import me.imlukas.prisoncore.modules.items.items.registry.PlayerItemDataRegistry;
 import me.imlukas.prisoncore.utils.PDCUtils.PDCWrapper;
 import me.imlukas.prisoncore.utils.command.SimpleCommand;
 import org.bukkit.command.CommandSender;
@@ -22,12 +22,14 @@ import java.util.UUID;
 public class GiveEnchantCommand implements SimpleCommand {
 
     private final PrisonCore plugin;
-    private final PlayerItemDataRegistry playerItemDataRegistry;
+    private final PrisonItemCache prisonItemCache;
+    private final PrisonItemFetcher prisonItemFetcher;
     private final EnchantmentHandler enchantmentHandler;
 
     public GiveEnchantCommand(ItemModule itemModule) {
         this.plugin = itemModule.getPlugin();
-        this.playerItemDataRegistry = itemModule.getPlayerItemDataRegistry();
+        this.prisonItemCache = itemModule.getPrisonItemCache();
+        this.prisonItemFetcher = itemModule.getPrisonItemFetcher();
         this.enchantmentHandler = itemModule.getEnchantmentHandler();
     }
 
@@ -44,32 +46,20 @@ public class GiveEnchantCommand implements SimpleCommand {
     @Override
     public void execute(CommandSender sender, String... args) {
         Player player = (Player) sender;
-        PlayerItemData playerItemData = playerItemDataRegistry.get(player.getUniqueId());
-
-        if (playerItemData == null) {
-            return;
-        }
         ItemStack itemInMainHand = player.getInventory().getItemInMainHand();
 
         if (itemInMainHand.getType().isAir()) {
             return;
         }
 
-        UUID itemId = new PDCWrapper(plugin, itemInMainHand).getUUID("prison-item-id");
+        PrisonItem prisonItem = prisonItemCache.getOrFetch(itemInMainHand);
 
-        if (itemId == null) {
-            player.sendMessage("This item does not have an identifier!");
+        if (prisonItem == null) {
+            prisonItem = prisonItemFetcher.fetchItem(itemInMainHand);
             return;
         }
 
-        PrisonItem baseItem = playerItemData.get(itemId);
-
-        if (baseItem == null) {
-            player.sendMessage("This item does not have a PrisonItem!");
-            return;
-        }
-
-        if (!(baseItem instanceof EnchantableItem enchantableItem)) {
+        if (!(prisonItem instanceof EnchantableItem enchantableItem)) {
             player.sendMessage("This item is not enchantable!");
             return;
         }
@@ -81,7 +71,7 @@ public class GiveEnchantCommand implements SimpleCommand {
             level = Integer.parseInt(args[1]);
         }
 
-        Enchantment enchantment = enchantmentHandler.getEnchantment(enchantmentName, level);
+        AbstractEnchantment enchantment = enchantmentHandler.getEnchantment(enchantmentName, level);
 
         if (enchantment == null) {
             player.sendMessage("This enchantment does not exist!");

@@ -1,23 +1,31 @@
 package me.imlukas.prisoncore.modules.items.items.impl;
 
+import lombok.SneakyThrows;
 import me.imlukas.prisoncore.modules.items.constants.ToolType;
-import me.imlukas.prisoncore.utils.PDCUtils.PDCWrapper;
+import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.UUID;
+import java.util.function.Consumer;
 
 public class BaseItem implements PrisonItem {
 
     private final UUID uuid;
-    private final String displayItemType;
-    private final ItemStack displayItem;
+    private final String identifier;
     private final ToolType toolType;
 
-    public BaseItem(UUID uuid, String displayItemType, ItemStack displayItem, ToolType toolType) {
+    private ItemStack displayItem;
+    private Consumer<PlayerInteractEvent> onRightClick;
+
+    public BaseItem(UUID uuid, String identifier, ItemStack displayItem, ToolType toolType) {
         this.uuid = uuid;
-        this.displayItemType = displayItemType;
+        this.identifier = identifier;
         this.displayItem = displayItem;
         this.toolType = toolType;
+    }
+
+    public Consumer<PlayerInteractEvent> getRightClickAction() {
+        return onRightClick;
     }
 
     @Override
@@ -26,8 +34,8 @@ public class BaseItem implements PrisonItem {
     }
 
     @Override
-    public String getDisplayItemType() {
-        return displayItemType;
+    public String getIdentifier() {
+        return identifier;
     }
 
     @Override
@@ -41,7 +49,18 @@ public class BaseItem implements PrisonItem {
     }
 
     @Override
-    public Runnable onRightClick() {
-        return null;
+    public void setDisplayItem(ItemStack item) {
+        this.displayItem = item;
+    }
+
+    @Override
+    public void onRightClick(Consumer<PlayerInteractEvent> onRightClick) {
+        this.onRightClick = onRightClick;
+    }
+
+    @SneakyThrows
+    @Override
+    public PrisonItem clone() {
+        return (PrisonItem) super.clone();
     }
 }

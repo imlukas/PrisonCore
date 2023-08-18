@@ -1,6 +1,7 @@
 package me.imlukas.prisoncore.modules.items.enchantments.registry;
 
 import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
+import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -8,17 +9,17 @@ import java.util.function.Supplier;
 
 public class EnchantmentRegistry {
 
-    private final Map<String, Supplier<Enchantment>> map = new HashMap<>();
+    private final Map<String, Supplier<AbstractEnchantment>> map = new HashMap<>();
 
-    public Enchantment get(String key) {
+    public AbstractEnchantment get(String key) {
         return map.get(key).get();
     }
 
-    public Map<String, Supplier<Enchantment>> getData() {
+    public Map<String, Supplier<AbstractEnchantment>> getData() {
         return map;
     }
 
-    public void put(String key, Supplier<Enchantment> value) {
+    public void put(String key, Supplier<AbstractEnchantment> value) {
         map.put(key, value);
     }
 

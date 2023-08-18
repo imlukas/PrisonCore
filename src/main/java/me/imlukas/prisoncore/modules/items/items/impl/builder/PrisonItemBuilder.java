@@ -2,9 +2,11 @@ package me.imlukas.prisoncore.modules.items.items.impl.builder;
 
 import me.imlukas.prisoncore.modules.items.constants.ToolType;
 import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
+import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
 import me.imlukas.prisoncore.modules.items.items.impl.BaseItem;
 import me.imlukas.prisoncore.modules.items.items.impl.EnchantableItem;
 import me.imlukas.prisoncore.modules.items.items.impl.PrisonItem;
+import me.imlukas.prisoncore.utils.PDCUtils.PDCWrapper;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -13,8 +15,7 @@ import java.util.UUID;
 
 public class PrisonItemBuilder {
 
-
-    private final List<Enchantment> enchantmentList = new ArrayList<>();
+    private final List<AbstractEnchantment> enchantmentList = new ArrayList<>();
     private final ItemStack displayItem;
 
     private UUID itemId = UUID.randomUUID();
@@ -46,17 +47,20 @@ public class PrisonItemBuilder {
         return this;
     }
 
-    public PrisonItemBuilder enchantments(List<Enchantment> enchantments) {
+    public PrisonItemBuilder enchantments(List<AbstractEnchantment> enchantments) {
+        this.isEnchantable = true;
         this.enchantmentList.addAll(enchantments);
         return this;
     }
 
-    public PrisonItemBuilder enchantments(Enchantment... enchantments) {
+    public PrisonItemBuilder enchantments(AbstractEnchantment... enchantments) {
+        this.isEnchantable = true;
         this.enchantmentList.addAll(List.of(enchantments));
         return this;
     }
 
     public PrisonItem build() {
+
         if (isEnchantable) {
             return new EnchantableItem(itemId, identifier, toolType, displayItem, enchantmentList);
         } else {

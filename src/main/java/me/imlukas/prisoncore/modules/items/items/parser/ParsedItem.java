@@ -2,6 +2,7 @@ package me.imlukas.prisoncore.modules.items.items.parser;
 
 import me.imlukas.prisoncore.modules.items.constants.ToolType;
 import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
+import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -15,7 +16,7 @@ public class ParsedItem {
     private final ToolType toolType;
     private final boolean isEnchantable;
 
-    private List<Enchantment> enchantmentList = new ArrayList<>();
+    private List<AbstractEnchantment> enchantmentList = new ArrayList<>();
 
     public ParsedItem(String identifier, ItemStack displayItem, boolean isEnchantable, ToolType toolType) {
         this.identifier = identifier;
@@ -39,7 +40,7 @@ public class ParsedItem {
         return toolType;
     }
 
-    public List<Enchantment> getEnchantmentList() {
+    public List<AbstractEnchantment> getEnchantmentList() {
         return enchantmentList;
     }
 
@@ -48,11 +49,11 @@ public class ParsedItem {
     }
 
 
-    public void addEnchantment(Enchantment... enchantments) {
+    public void addEnchantment(AbstractEnchantment... enchantments) {
         enchantmentList.addAll(List.of(enchantments));
     }
 
-    public void setEnchantments(List<Enchantment> enchantments) {
+    public void setEnchantments(List<AbstractEnchantment> enchantments) {
         enchantmentList = enchantments;
     }
 }
