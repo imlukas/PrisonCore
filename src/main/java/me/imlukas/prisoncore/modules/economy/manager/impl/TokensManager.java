@@ -2,27 +2,27 @@ package me.imlukas.prisoncore.modules.economy.manager.impl;
 
 import me.imlukas.prisoncore.PrisonCore;
 import me.imlukas.prisoncore.modules.database.DatabaseModule;
-import me.imlukas.prisoncore.modules.database.impl.FetchingDatabase;
+import me.imlukas.prisoncore.modules.database.impl.PrisonDatabase;
 import me.imlukas.prisoncore.modules.economy.constants.EconomyType;
-import me.imlukas.prisoncore.modules.economy.data.impl.PointsPlayerData;
+import me.imlukas.prisoncore.modules.economy.data.impl.TokensData;
 import me.imlukas.prisoncore.modules.economy.manager.EconomyManager;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-public class TokensManager implements EconomyManager<PointsPlayerData> {
+public class TokensManager implements EconomyManager<TokensData> {
 
-    private final FetchingDatabase fetchingDatabase;
-    private final Map<UUID, PointsPlayerData> pointsPlayerData = new HashMap<>();
+    private final PrisonDatabase prisonDatabase;
+    private final Map<UUID, TokensData> pointsPlayerData = new HashMap<>();
 
     public TokensManager(PrisonCore plugin) {
-        this.fetchingDatabase = plugin.getModule(DatabaseModule.class).getDatabaseRegistry().getFetchingDatabase();
+        this.prisonDatabase = plugin.getModule(DatabaseModule.class).getDatabaseRegistry().getFetchingDatabase();
     }
 
     @Override
     public String getCommonIdentifier() {
-        return "points";
+        return "tokens";
     }
 
     @Override
@@ -31,7 +31,7 @@ public class TokensManager implements EconomyManager<PointsPlayerData> {
     }
 
     @Override
-    public PointsPlayerData getData(UUID playerId) {
+    public TokensData getData(UUID playerId) {
         if (!isLoaded(playerId)) {
             loadData(playerId);
         }
@@ -40,7 +40,7 @@ public class TokensManager implements EconomyManager<PointsPlayerData> {
     }
 
     @Override
-    public void addData(PointsPlayerData data) {
+    public void addData(TokensData data) {
         pointsPlayerData.put(data.getPlayerId(), data);
     }
 
@@ -51,14 +51,14 @@ public class TokensManager implements EconomyManager<PointsPlayerData> {
 
     @Override
     public void saveData(UUID playerId) {
-        fetchingDatabase.storeEconomyData(playerId, getType(), getData(playerId).getBalance());
+        prisonDatabase.store(playerId, "tokens-balance", getData(playerId).getBalance());
     }
 
     @Override
     public void loadData(UUID playerId) {
-        fetchingDatabase.fetchBalance(playerId, getType()).thenAccept(value -> {
+        prisonDatabase.fetch(playerId, "tokens-balance", Integer.class).thenAccept(value -> {
             if (value != null) {
-                addData(new PointsPlayerData(playerId, value));
+                addData(new TokensData(playerId, value));
             }
         });
     }

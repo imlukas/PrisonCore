@@ -1,12 +1,16 @@
 package me.imlukas.prisoncore.modules.database;
 
+import java.util.UUID;
+
 public interface Database {
 
     String getIdentifier();
 
-    boolean connect();
+    default boolean connect() { return true; }
 
-    void disconnect();
+    default void disconnect() {}
 
-    boolean isConnected();
+    default boolean isConnected() {
+        return false;
+    }
 }

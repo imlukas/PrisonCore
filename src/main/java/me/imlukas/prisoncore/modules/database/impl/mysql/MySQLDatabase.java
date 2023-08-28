@@ -1,14 +1,16 @@
 package me.imlukas.prisoncore.modules.database.impl.mysql;
 
 import me.imlukas.prisoncore.modules.database.DatabaseModule;
-import me.imlukas.prisoncore.modules.database.impl.FetchingDatabase;
+import me.imlukas.prisoncore.modules.database.impl.PrisonDatabase;
 import me.imlukas.prisoncore.modules.economy.constants.EconomyType;
-import org.bukkit.entity.Player;
+import me.imlukas.prisoncore.modules.economy.manager.EconomyManager;
 
 import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 
-public class MySQLDatabase extends FetchingDatabase {
+public class MySQLDatabase extends PrisonDatabase {
+
+
 
     protected MySQLDatabase(DatabaseModule databaseModule) {
         super(databaseModule);
@@ -16,12 +18,12 @@ public class MySQLDatabase extends FetchingDatabase {
     }
 
     @Override
-    public CompletableFuture<Integer> fetchBalance(UUID playerId, EconomyType economyType) {
+    public <T> CompletableFuture<T> fetch(UUID playerId, String key, Class<T> clazz) {
         return null;
     }
 
     @Override
-    public void storeEconomyData(UUID playerId, EconomyType economyType, double value) {
+    public void store(UUID playerId, String key, Object value) {
 
     }
 

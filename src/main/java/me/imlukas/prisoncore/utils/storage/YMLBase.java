@@ -20,6 +20,10 @@ public class YMLBase {
     @Getter
     protected File file;
 
+    public YMLBase(AbstractModule module, String name, boolean existsOnSource) {
+        this(module.getPlugin(), new File(module.getDataFolder(), name), existsOnSource);
+    }
+
     public YMLBase(AbstractModule module, String name) {
         this(module.getPlugin(), new File(module.getDataFolder(), name), true);
     }

@@ -1,5 +1,7 @@
 package me.imlukas.prisoncore.modules.economy.data;
 
+import org.bukkit.entity.Player;
+
 import java.io.Serializable;
 import java.util.UUID;
 
@@ -10,40 +12,47 @@ public interface EconomyData extends Serializable {
      *
      * @return the sign
      */
-    public String getSign();
+    String getSign();
 
     /**
      * The balance of the player
      *
      * @return the balance
      */
-    public double getBalance();
+    double getBalance();
 
     /**
      * Set the balance of the player
      *
      * @param balance the new balance
      */
-    public void setBalance(double balance);
+    void setBalance(double balance);
 
     /**
      * Add to the balance of the player
      *
      * @param balance the amount to add
      */
-    public void addBalance(double balance);
+    void addBalance(double balance);
 
     /**
      * Subtract from the balance of the player
      *
      * @param balance the amount to subtract
      */
-    public void subtractBalance(double balance);
+    void subtractBalance(double balance);
 
     /**
      * The UUID of the player
      *
      * @return the UUID
      */
-    public UUID getPlayerId();
+    UUID getPlayerId();
+
+    /**
+     * The player
+     *
+     * @return the player or null if the player is offline
+     */
+    Player getPlayer();
 }

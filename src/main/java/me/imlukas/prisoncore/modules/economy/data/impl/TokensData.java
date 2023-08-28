@@ -1,15 +1,17 @@
 package me.imlukas.prisoncore.modules.economy.data.impl;
 
 import me.imlukas.prisoncore.modules.economy.data.EconomyData;
+import org.bukkit.Bukkit;
+import org.bukkit.entity.Player;
 
 import java.util.UUID;
 
-public class PointsPlayerData implements EconomyData {
+public class TokensData implements EconomyData {
 
     private final UUID playerId;
     private double points;
 
-    public PointsPlayerData(UUID playerId, double points) {
+    public TokensData(UUID playerId, double points) {
         this.playerId = playerId;
         this.points = points;
     }
@@ -43,4 +45,11 @@ public class PointsPlayerData implements EconomyData {
     public UUID getPlayerId() {
         return playerId;
     }
+
+    @Override
+    public Player getPlayer() {
+        return Bukkit.getPlayer(playerId);
+    }
+
+
 }
