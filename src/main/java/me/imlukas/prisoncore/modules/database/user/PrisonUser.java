@@ -45,6 +45,22 @@ public class PrisonUser {
         return fetchingDatabase.fetch(playerId, key, clazz);
     }
 
+    /**
+     * Fetches multiple values from the database
+     * @param clazz The class of the values
+     * @param keys The keys to fetch the values from
+     * @return A future with a map of the values in which the key is the identifier of the value, based on the original key
+     * @param <T> The type of the values
+     */
+    public <T> CompletableFuture<Map<String, T>> fetchMultiple(Class<T> clazz, String... keys) {
+        return fetchingDatabase.fetchMultiple(playerId, clazz, keys);
+    }
+
+    /**
+     * Stores a value in the database
+     * @param key The key to store the value under
+     * @param value The value to store
+     */
     public void store(String key, Object value) {
         fetchingDatabase.store(playerId, key, value);
     }

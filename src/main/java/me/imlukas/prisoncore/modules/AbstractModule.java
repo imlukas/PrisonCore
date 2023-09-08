@@ -31,7 +31,7 @@ public abstract class AbstractModule {
         config = new YMLBase(plugin, configFile, existsOnSource);
     }
 
-    public void onEnable() {}
+    public abstract void onEnable();
 
     public void onDisable() {}
 

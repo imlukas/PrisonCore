@@ -3,6 +3,7 @@ package me.imlukas.prisoncore.utils.messages;
 import me.imlukas.prisoncore.PrisonCore;
 import me.imlukas.prisoncore.utils.storage.YMLBase;
 import me.imlukas.prisoncore.utils.text.Placeholder;
+import me.imlukas.prisoncore.utils.text.TextUtils;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.apache.commons.lang3.StringEscapeUtils;
@@ -14,19 +15,19 @@ import org.bukkit.entity.Player;
 import java.io.File;
 import java.util.Collection;
 import java.util.function.Function;
+import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class MessagesFile extends YMLBase {
 
-    private final Pattern pattern;
     private final String prefix, arrow;
     protected boolean usePrefixConfig, useActionBar, isLessIntrusive;
     private String msg;
 
     public MessagesFile(PrisonCore plugin) {
         super(plugin, new File(plugin.getDataFolder(), "messages.yml"), true);
-        pattern = Pattern.compile("#[a-fA-F0-9]{6}");
+
         prefix = StringEscapeUtils.unescapeJava(getConfiguration().getString("messages.prefix"));
         arrow = StringEscapeUtils.unescapeJava(getConfiguration().getString("messages.arrow"));
         usePrefixConfig = getConfiguration().getBoolean("messages.use-prefix");
@@ -36,27 +37,7 @@ public class MessagesFile extends YMLBase {
 
     }
 
-    public String setColor(String message) {
-        String[] split = Bukkit.getBukkitVersion().split("-")[0].split("\\.");
-        int minorVer = Integer.parseInt(split[1]);
-
-        if (minorVer >= 16) {
-            Matcher matcher = pattern.matcher(message);
-
-            while (matcher.find()) {
-                String color = message.substring(matcher.start(), matcher.end());
-                message = message.replace(color, net.md_5.bungee.api.ChatColor.of(color) + "");
-                matcher = pattern.matcher(message);
-            }
-        }
-        return ChatColor.translateAlternateColorCodes('&', message);
-    }
-
-    private String setMessage(String name) {
-        return setMessage(name, (s) -> s);
-    }
-
-    private String setMessage(String name, Function<String, String> action) {
+    private String setMessage(String name, UnaryOperator<String> action) {
         if (!getConfiguration().contains("messages." + name))
             return "";
         msg = getMessage(name);
@@ -66,12 +47,9 @@ public class MessagesFile extends YMLBase {
             msg = msg.replace("%prefix%", prefix);
         }
         msg = action.apply(msg);
-        return setColor(msg);
+        return TextUtils.color(msg);
     }
 
-    public void sendStringMessage(CommandSender player, String msg) {
-        player.sendMessage(setColor(msg));
-    }
 
     public void sendMessage(CommandSender sender, String name) {
         sendMessage(sender, name, (s) -> s);
@@ -80,7 +58,7 @@ public class MessagesFile extends YMLBase {
 
     @SafeVarargs
     public final <T extends CommandSender> void sendMessage(T sender, String name, Placeholder<T>... placeholders) {
-        sendMessage(sender, name, (text) -> {
+        sendMessage(sender, name, text -> {
             for (Placeholder<T> placeholder : placeholders) {
                 text = placeholder.replace(text, sender);
             }
@@ -90,7 +68,7 @@ public class MessagesFile extends YMLBase {
     }
 
     public final <T extends CommandSender> void sendMessage(T sender, String name, Collection<Placeholder<T>> placeholders) {
-        sendMessage(sender, name, (text) -> {
+        sendMessage(sender, name, text -> {
             for (Placeholder<T> placeholder : placeholders) {
                 text = placeholder.replace(text, sender);
             }
@@ -99,34 +77,29 @@ public class MessagesFile extends YMLBase {
         });
     }
 
-
-    public void sendMessage(CommandSender sender, String name, Function<String, String> action) {
+    public void sendMessage(CommandSender sender, String name, UnaryOperator<String> action) {
         if (getConfiguration().isList("messages." + name)) {
             for (String str : getConfiguration().getStringList("messages." + name)) {
                 msg = StringEscapeUtils.unescapeJava(str.replace("%prefix%", prefix));
                 msg = action.apply(msg);
-                sender.sendMessage(setColor(msg));
+                sender.sendMessage(TextUtils.color(msg));
             }
             return;
         }
 
         msg = setMessage(name, action);
         if (useActionBar && sender instanceof Player player && !isLessIntrusive) {
-            sendActionbarStringMessage(player, msg);
+            sendActionBarMessage(player, msg);
             return;
         }
         sender.sendMessage(msg);
     }
 
-    public void sendActionbarStringMessage(Player player, String msg) {
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(msg));
-    }
-
     public void sendActionBarMessage(Player player, String key) {
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(setMessage(key)));
+        sendActionBarMessage(player, key, s -> s);
     }
 
-    public void sendActionBarMessage(Player player, String key, Function<String, String> action) {
+    public void sendActionBarMessage(Player player, String key, UnaryOperator<String> action) {
         player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(setMessage(key, action)));
     }
 

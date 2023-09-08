@@ -6,6 +6,7 @@ import me.imlukas.prisoncore.utils.storage.YMLBase;
 import java.util.concurrent.CompletableFuture;
 
 public class PlayerFile extends YMLBase {
+
     public PlayerFile(AbstractModule module, String playerId) {
         super(module, playerId + ".yml", false);
     }
