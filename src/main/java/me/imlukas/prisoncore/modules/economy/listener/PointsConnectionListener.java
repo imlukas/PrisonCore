@@ -1,11 +1,9 @@
 package me.imlukas.prisoncore.modules.economy.listener;
 
-import me.imlukas.prisoncore.modules.database.DatabaseModule;
-import me.imlukas.prisoncore.modules.database.impl.PrisonDatabase;
-import me.imlukas.prisoncore.modules.database.user.PrisonUser;
 import me.imlukas.prisoncore.modules.economy.EconomyModule;
 import me.imlukas.prisoncore.modules.economy.manager.EconomyManager;
-import me.imlukas.prisoncore.modules.economy.manager.EconomyManagerRegistry;
+import me.imlukas.prisoncore.modules.economy.manager.impl.BaseManager;
+import me.imlukas.prisoncore.modules.economy.manager.registry.EconomyManagerRegistry;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -23,20 +21,19 @@ public class PointsConnectionListener implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent event) {
-        List<EconomyManager<?>> economyManagers = managerRegistry.getEconomyManagers();
+        List<BaseManager> economyManagers = managerRegistry.getEconomyManagers();
 
-        for (EconomyManager<?> economyManager : economyManagers) {
+        for (BaseManager economyManager : economyManagers) {
             economyManager.loadData(event.getPlayer().getUniqueId());
         }
-
 
     }
 
     @EventHandler
     public void onQuit(PlayerQuitEvent event) {
-        List<EconomyManager<?>> economyManagers = managerRegistry.getEconomyManagers();
+        List<BaseManager> economyManagers = managerRegistry.getEconomyManagers();
 
-        for (EconomyManager<?> economyManager : economyManagers) {
+        for (BaseManager economyManager : economyManagers) {
             economyManager.saveData(event.getPlayer().getUniqueId());
         }
     }

@@ -1,6 +1,7 @@
 package me.imlukas.prisoncore.modules.items.enchantments.impl.pickaxe;
 
 import me.imlukas.prisoncore.modules.items.constants.ToolType;
+import me.imlukas.prisoncore.modules.items.enchantments.data.ParsedEnchantment;
 import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -11,6 +12,10 @@ public class MoneyGiverEnchantment extends AbstractEnchantment {
 
     private int baseValue = 10;
     private int baseMoney = baseValue * getLevel();
+
+    public MoneyGiverEnchantment(ParsedEnchantment parsedEnchantment) {
+        super(parsedEnchantment);
+    }
 
     @Override
     public String getName() {
@@ -41,6 +46,6 @@ public class MoneyGiverEnchantment extends AbstractEnchantment {
 
     @Override
     public void trigger(Player player, ItemStack itemStack) {
-        // TODO: Add money to player
+
     }
 }

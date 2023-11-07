@@ -10,10 +10,7 @@ public abstract class ChanceEnchantment extends AbstractEnchantment {
     protected double percentageIncrease;
 
     protected ChanceEnchantment(ParsedEnchantment parsedEnchantment) {
-        super(parsedEnchantment.getLevel(), parsedEnchantment.getMaxLevel(), parsedEnchantment.getDisplayitem());
-        this.maxLevel = parsedEnchantment.getMaxLevel();
-        this.basePercentage = parsedEnchantment.getBasePercentage();
-        this.percentageIncrease = parsedEnchantment.getPercentageIncrease();
+        super(parsedEnchantment);
     }
 
     /**
@@ -42,6 +39,7 @@ public abstract class ChanceEnchantment extends AbstractEnchantment {
      * @return Whether the enchantment triggered
      */
     public boolean tryTrigger(Player player, ItemStack itemStack) {
+        System.out.println("Triggering chance enchantment");
         if (getChancePercentage() == 1.0d) {
             trigger(player, itemStack);
             return true;

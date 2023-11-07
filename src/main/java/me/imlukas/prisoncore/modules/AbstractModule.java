@@ -41,6 +41,10 @@ public abstract class AbstractModule {
         return plugin;
     }
 
+    public <T extends AbstractModule> T getModule(Class<T> clazz) {
+        return plugin.getModule(clazz);
+    }
+
     public File getDataFolder() {
         return dataFolder;
     }

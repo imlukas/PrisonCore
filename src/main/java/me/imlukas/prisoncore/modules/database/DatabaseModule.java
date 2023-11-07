@@ -3,7 +3,7 @@ package me.imlukas.prisoncore.modules.database;
 import lombok.Getter;
 import me.imlukas.prisoncore.modules.AbstractModule;
 import me.imlukas.prisoncore.modules.database.impl.file.FileDatabase;
-import me.imlukas.prisoncore.modules.database.impl.file.manager.FileManager;
+import me.imlukas.prisoncore.modules.database.listener.DatabaseConnectionListener;
 import me.imlukas.prisoncore.modules.database.registry.DatabaseRegistry;
 import me.imlukas.prisoncore.modules.database.user.UserManager;
 
@@ -25,6 +25,11 @@ public class DatabaseModule extends AbstractModule {
 
         databaseRegistry.registerDatabase("file", () -> new FileDatabase(this));
         databaseRegistry.setFetchingDatabase(getConfig().getString("database.fetching", DEFAULT_DATABASE));
+
+        registerListener(new DatabaseConnectionListener(this));
+
+        System.out.println("Fetching database: " + databaseRegistry.getFetchingDatabase().getIdentifier());
+        System.out.println("[PrisonCore] DatabaseModule enabled");
     }
 
     @Override

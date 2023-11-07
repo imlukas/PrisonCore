@@ -1,14 +1,17 @@
 package me.imlukas.prisoncore.modules.ranking.ranks;
 
+import me.imlukas.prisoncore.modules.ranking.prestige.data.PrestigeData;
+import me.imlukas.prisoncore.modules.ranking.ranks.data.RankData;
+
 import java.util.UUID;
 
 public class PlayerRanking {
 
     private final UUID playerId;
-    private int rank;
-    private int prestige;
+    private RankData rank;
+    private PrestigeData prestige;
 
-    public PlayerRanking(UUID playerId, int currentRank, int currentPrestige) {
+    public PlayerRanking(UUID playerId, RankData currentRank, PrestigeData currentPrestige) {
         this.playerId = playerId;
         this.rank = currentRank;
         this.prestige = currentPrestige;
@@ -18,19 +21,19 @@ public class PlayerRanking {
         return playerId;
     }
 
-    public int getPrestige() {
+    public PrestigeData getPrestige() {
         return prestige;
     }
 
-    public int getRank() {
+    public RankData getRank() {
         return rank;
     }
 
-    public void setPrestige(int prestige) {
+    public void setPrestige(PrestigeData prestige) {
         this.prestige = prestige;
     }
 
-    public void setRank(int rank) {
+    public void setRank(RankData rank) {
         this.rank = rank;
     }
 }

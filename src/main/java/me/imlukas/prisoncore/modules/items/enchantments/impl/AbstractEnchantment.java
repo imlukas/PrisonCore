@@ -1,6 +1,7 @@
 package me.imlukas.prisoncore.modules.items.enchantments.impl;
 
 import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
+import me.imlukas.prisoncore.modules.items.enchantments.data.ParsedEnchantment;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.ItemStack;
@@ -19,10 +20,10 @@ public abstract class AbstractEnchantment implements Enchantment {
         this.displayItem = new ItemStack(Material.AIR);
     }
 
-    public AbstractEnchantment(int level, int maxLevel, ItemStack displayItem) {
-        this.level = level;
-        this.maxLevel = maxLevel;
-        this.displayItem = displayItem;
+    protected AbstractEnchantment(ParsedEnchantment parsedEnchantment) {
+        this.level = parsedEnchantment.getLevel();
+        this.maxLevel = parsedEnchantment.getMaxLevel();
+        this.displayItem = parsedEnchantment.getDisplayitem();
     }
 
     @Override

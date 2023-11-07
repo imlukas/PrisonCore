@@ -1,35 +1,49 @@
 package me.imlukas.prisoncore.modules.economy.manager;
 
 import me.imlukas.prisoncore.modules.economy.constants.EconomyType;
-import me.imlukas.prisoncore.modules.economy.data.EconomyData;
+import me.imlukas.prisoncore.modules.economy.data.PlayerEconomyData;
 
 import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
 
-public interface EconomyManager<T extends EconomyData> {
+public interface EconomyManager {
 
     /**
-     * @return The common identifier of the economy manager, used for config and storage.
+     * @return The identifier of the economy manager, used for config and storage.
      */
-    String getCommonIdentifier();
+    String getIdentifier();
     /**
      * @return The identifier of the economy manager
      */
     EconomyType getType();
 
     /**
+     * The sign to show after the balance (e.g. $, points, etc.)
+     * @return the sign
+     */
+    String getSign();
+    /**
      * Gets the data of the player for the specified economy manager
      *
      * @param playerId The UUID of the player
      * @return The data of the player for the specified economy manager
      */
-    T getData(UUID playerId);
+    CompletableFuture<PlayerEconomyData> getData(UUID playerId);
+
+    /**
+     * Used to get a new instance of the data, according to the economy manager
+     *
+     * @param playerId The UUID of the player
+     * @param balance balance
+     */
+    PlayerEconomyData getDataInstance(UUID playerId, Integer balance);
 
     /**
      * Adds the data to the economy manager
      *
      * @param data The data to add
      */
-    void addData(T data);
+    void addData(PlayerEconomyData data);
 
     /**
      * Removes the data from the economy manager
@@ -51,7 +65,7 @@ public interface EconomyManager<T extends EconomyData> {
      * @param playerId The UUID of the player
      * @return A CompletedFuture that contains the data of the player or null if the player has no data
      */
-    void loadData(UUID playerId);
+    CompletableFuture<PlayerEconomyData> loadData(UUID playerId);
 
     /**
      * Checks if the player's data is loaded

@@ -1,9 +1,12 @@
 plugins {
+    id 'com.github.johnrengelman.shadow' version '7.1.2'
     id 'java'
 }
 
+tasks.build.dependsOn('shadowJar')
+
 group = 'me.imlukas'
-version = '1.0'
+version = 'ALPHA-0.1'
 
 repositories {
     mavenCentral()
@@ -28,18 +31,22 @@ repositories {
 }
 
 dependencies {
-    compileOnly 'org.spigotmc:spigot-api:1.19.4-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.20.1-R0.1-SNAPSHOT'
     implementation 'com.jeff_media:MorePersistentDataTypes:2.4.0'
-
 
     compileOnly 'org.jetbrains:annotations:22.0.0'
     compileOnly 'com.mojang:authlib:1.5.21'
 
-    implementation 'de.tr7zw:item-nbt-api-plugin:2.11.2'
     compileOnly fileTree(dir: "libs", include: ["*.jar"])
 
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor('org.projectlombok:lombok:1.18.24')
+}
+shadowJar {
+    project.configurations.implementation.canBeResolved = true
+    configurations = [project.configurations.implementation]
+    destinationDirectory.set(file('C:\\Users\\Lukas Pinheiro\\Desktop\\testServer-1.19\\plugins'))
+    minimize()
 }
 
 def targetJavaVersion = 17

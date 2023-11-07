@@ -56,6 +56,10 @@ public class PrisonUser {
         return fetchingDatabase.fetchMultiple(playerId, clazz, keys);
     }
 
+    public <T> CompletableFuture<Map<String, T>> fetchMultiple(Class<T> clazz, T defaultValue, String... keys) {
+        return fetchingDatabase.fetchMultiple(playerId, clazz, defaultValue, keys);
+    }
+
     /**
      * Stores a value in the database
      * @param key The key to store the value under

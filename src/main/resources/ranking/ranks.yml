@@ -3,45 +3,23 @@ formula:
   formula: 125 * (rank + 1)
 
 ranks:
-  max: 10
   1:
-    money: 100
-    tokens: 10
+    name: "A"
+    prefix: "&7[&aA&7]"
+    suffix: "&7[&aA&7]"
+    price: 100
   2:
+    name: "B"
+    prefix: "&7[&aB&7]"
+    suffix: "&7[&aB&7]"
     money: 150
-    tokens: 15
-  3:
-    money: 150
-    tokens: 15
-  4:
-    money: 150
-    tokens: 15
-  5:
-    money: 150
-    tokens: 15
-  6:
-    money: 150
-    tokens: 15
-  7:
-    money: 150
-    tokens: 15
-  8:
-    money: 150
-    tokens: 15
-  9:
-    money: 150
-    tokens: 15
-  10:
-    money: 150
-    tokens: 15
-
-
 
 prestiges:
-  max: 10
   1:
-    money: 1000
-    tokens: 100
+    name: "Prestige 1"
+    prefix: "&7[&aPrestige 1&7]"
+    suffix: "&7[&aPrestige 1&7]"
+    price: 100
 
 
 

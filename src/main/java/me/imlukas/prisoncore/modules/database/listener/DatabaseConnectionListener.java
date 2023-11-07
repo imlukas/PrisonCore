@@ -28,7 +28,7 @@ public class DatabaseConnectionListener implements Listener {
         UUID playerId = event.getPlayer().getUniqueId();
         
         if (prisonDatabase instanceof FileDatabase fileDatabase) {
-            fileDatabase.getFileManager().add(playerId);
+            fileDatabase.getPlayerFileManager().add(playerId);
         }
         
         userRegistry.add(playerId);
@@ -40,9 +40,9 @@ public class DatabaseConnectionListener implements Listener {
         UUID playerId = event.getPlayer().getUniqueId();
         
         if (prisonDatabase instanceof FileDatabase fileDatabase) {
-            fileDatabase.getFileManager().remove(playerId);
+            fileDatabase.getPlayerFileManager().remove(playerId);
         }
 
-        userRegistry.remove(playerId);
+        userRegistry.unregister(playerId);
     }
 }

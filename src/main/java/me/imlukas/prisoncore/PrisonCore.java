@@ -3,6 +3,7 @@ package me.imlukas.prisoncore;
 import lombok.Getter;
 import me.imlukas.prisoncore.modules.AbstractModule;
 import me.imlukas.prisoncore.modules.database.DatabaseModule;
+import me.imlukas.prisoncore.modules.economy.EconomyModule;
 import me.imlukas.prisoncore.modules.items.ItemModule;
 import me.imlukas.prisoncore.modules.ranking.RankingModule;
 import me.imlukas.prisoncore.utils.command.SimpleCommand;
@@ -22,7 +23,6 @@ public final class PrisonCore extends JavaPlugin {
     private MessagesFile messages;
     private CommandManager commandManager;
 
-
     @Override
     public void onEnable() {
         messages = new MessagesFile(this);
@@ -30,6 +30,7 @@ public final class PrisonCore extends JavaPlugin {
         saveDefaultConfig();
 
         registerModule(new DatabaseModule());
+        registerModule(new EconomyModule());
         registerModule(new ItemModule());
         registerModule(new RankingModule());
     }

@@ -20,6 +20,8 @@ import me.imlukas.prisoncore.modules.items.items.parser.ItemParser;
 @Getter
 public class ItemModule extends AbstractModule {
 
+    // TODO: Re-Write this entire module for the third time.
+
     private EnchantmentRegistry enchantmentRegistry;
     private EnchantmentHandler enchantmentHandler;
 
@@ -33,8 +35,8 @@ public class ItemModule extends AbstractModule {
 
     @Override
     public void onEnable() {
-        prisonItemRegistry = new PrisonItemRegistry(this);
         prisonItemHandler = new PrisonItemHandler(this);
+        prisonItemRegistry = new PrisonItemRegistry(this);
         prisonItemCache = new PrisonItemCache(this);
 
         enchantmentRegistry = new EnchantmentRegistry();
