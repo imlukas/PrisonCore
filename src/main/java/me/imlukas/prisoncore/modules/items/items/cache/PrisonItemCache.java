@@ -4,7 +4,7 @@ import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.RemovalListener;
 import me.imlukas.prisoncore.PrisonCore;
-import me.imlukas.prisoncore.modules.items.ItemModule;
+import me.imlukas.prisoncore.modules.newitems.ItemModule;
 import me.imlukas.prisoncore.modules.items.items.fetching.PrisonItemHandler;
 import me.imlukas.prisoncore.modules.items.items.impl.PrisonItem;
 import me.imlukas.prisoncore.utils.PDCUtils.PDCWrapper;

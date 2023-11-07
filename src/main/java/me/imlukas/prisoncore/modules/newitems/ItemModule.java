@@ -1,4 +1,4 @@
-package me.imlukas.prisoncore.modules.items;
+package me.imlukas.prisoncore.modules.newitems;
 
 import lombok.Getter;
 import me.imlukas.prisoncore.modules.AbstractModule;
@@ -16,6 +16,9 @@ import me.imlukas.prisoncore.modules.items.items.registry.PrisonItemRegistry;
 import me.imlukas.prisoncore.modules.items.items.command.GiveItemCommand;
 import me.imlukas.prisoncore.modules.items.items.listener.ItemConnectionListener;
 import me.imlukas.prisoncore.modules.items.items.parser.ItemParser;
+import me.imlukas.prisoncore.modules.newitems.event.SimpleEventBus;
+import me.imlukas.prisoncore.modules.newitems.tool.base.cache.BaseToolCache;
+import me.imlukas.prisoncore.modules.newitems.tool.stats.registry.ToolStatisticRegistry;
 
 @Getter
 public class ItemModule extends AbstractModule {
@@ -25,19 +28,26 @@ public class ItemModule extends AbstractModule {
     private EnchantmentRegistry enchantmentRegistry;
     private EnchantmentHandler enchantmentHandler;
 
-    private PrisonItemCache prisonItemCache;
+    private BaseToolCache toolCache;
     private PrisonItemHandler prisonItemHandler;
 
     private PrisonItemRegistry prisonItemRegistry;
 
     private ItemParser itemParser;
+    private SimpleEventBus eventBus;
+    private ToolStatisticRegistry statisticRegistry;
 
 
     @Override
     public void onEnable() {
+
+        eventBus = new SimpleEventBus(this);
+        toolCache = new BaseToolCache();
+
+        statisticRegistry = new ToolStatisticRegistry();
+
         prisonItemHandler = new PrisonItemHandler(this);
         prisonItemRegistry = new PrisonItemRegistry(this);
-        prisonItemCache = new PrisonItemCache(this);
 
         enchantmentRegistry = new EnchantmentRegistry();
         enchantmentHandler = new EnchantmentHandler(this);

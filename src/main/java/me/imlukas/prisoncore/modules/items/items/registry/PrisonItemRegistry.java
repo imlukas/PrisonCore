@@ -1,15 +1,11 @@
 package me.imlukas.prisoncore.modules.items.items.registry;
 
 import me.imlukas.prisoncore.PrisonCore;
-import me.imlukas.prisoncore.modules.items.ItemModule;
-import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
+import me.imlukas.prisoncore.modules.newitems.ItemModule;
 import me.imlukas.prisoncore.modules.items.items.fetching.PrisonItemHandler;
 import me.imlukas.prisoncore.modules.items.items.impl.PrisonItem;
 import me.imlukas.prisoncore.modules.items.items.impl.builder.PrisonItemBuilder;
 import me.imlukas.prisoncore.modules.items.items.parser.ParsedItem;
-import me.imlukas.prisoncore.utils.PDCUtils.PDCWrapper;
-import me.imlukas.prisoncore.utils.item.ItemUtil;
-import me.imlukas.prisoncore.utils.text.TextUtils;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.*;

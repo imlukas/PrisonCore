@@ -1,7 +1,7 @@
 package me.imlukas.prisoncore.modules.items.enchantments.listeners;
 
 import me.imlukas.prisoncore.PrisonCore;
-import me.imlukas.prisoncore.modules.items.ItemModule;
+import me.imlukas.prisoncore.modules.newitems.ItemModule;
 import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
 import me.imlukas.prisoncore.modules.items.enchantments.impl.ChanceEnchantment;
 import me.imlukas.prisoncore.modules.items.items.cache.PrisonItemCache;

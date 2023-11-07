@@ -1,7 +1,7 @@
 package me.imlukas.prisoncore.modules.items.enchantments.commands;
 
 import me.imlukas.prisoncore.PrisonCore;
-import me.imlukas.prisoncore.modules.items.ItemModule;
+import me.imlukas.prisoncore.modules.newitems.ItemModule;
 import me.imlukas.prisoncore.modules.items.constants.ToolType;
 import me.imlukas.prisoncore.modules.items.enchantments.handler.EnchantmentHandler;
 import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;

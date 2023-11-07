@@ -3,6 +3,9 @@ package me.imlukas.prisoncore.modules.database;
 import lombok.Getter;
 import me.imlukas.prisoncore.modules.AbstractModule;
 import me.imlukas.prisoncore.modules.database.impl.file.FileDatabase;
+import me.imlukas.prisoncore.modules.database.impl.file.manager.FileManager;
+import me.imlukas.prisoncore.modules.database.impl.file.manager.PlayerFileManager;
+import me.imlukas.prisoncore.modules.database.impl.mysql.MySQLDatabase;
 import me.imlukas.prisoncore.modules.database.listener.DatabaseConnectionListener;
 import me.imlukas.prisoncore.modules.database.registry.DatabaseRegistry;
 import me.imlukas.prisoncore.modules.database.user.UserManager;
@@ -12,7 +15,7 @@ public class DatabaseModule extends AbstractModule {
 
     private static final String DEFAULT_DATABASE = "file";
     private DatabaseRegistry databaseRegistry;
-    private FileManager fileManager;
+    private PlayerFileManager fileManager;
     private UserManager userManager;
 
 
@@ -20,10 +23,11 @@ public class DatabaseModule extends AbstractModule {
     public void onEnable() {
         saveDefaultConfig(true);
         databaseRegistry = new DatabaseRegistry();
-        fileManager = new FileManager(this);
+        fileManager = new PlayerFileManager(this);
         userManager = new UserManager(this.getPlugin());
 
         databaseRegistry.registerDatabase("file", () -> new FileDatabase(this));
+        databaseRegistry.registerDatabase("sql", () -> new MySQLDatabase(this));
         databaseRegistry.setFetchingDatabase(getConfig().getString("database.fetching", DEFAULT_DATABASE));
 
         registerListener(new DatabaseConnectionListener(this));

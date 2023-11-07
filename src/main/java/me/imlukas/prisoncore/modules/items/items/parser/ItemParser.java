@@ -2,26 +2,19 @@ package me.imlukas.prisoncore.modules.items.items.parser;
 
 
 import me.imlukas.prisoncore.PrisonCore;
-import me.imlukas.prisoncore.modules.items.ItemModule;
+import me.imlukas.prisoncore.modules.newitems.ItemModule;
 import me.imlukas.prisoncore.modules.items.constants.ToolType;
-import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
 import me.imlukas.prisoncore.modules.items.enchantments.handler.EnchantmentHandler;
 import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
-import me.imlukas.prisoncore.modules.items.items.impl.PrisonItem;
-import me.imlukas.prisoncore.modules.items.items.impl.builder.PrisonItemBuilder;
 import me.imlukas.prisoncore.modules.items.items.registry.PrisonItemRegistry;
-import me.imlukas.prisoncore.utils.PDCUtils.PDCWrapper;
 import me.imlukas.prisoncore.utils.item.ItemBuilder;
-import me.imlukas.prisoncore.utils.item.ItemUtil;
 import me.imlukas.prisoncore.utils.storage.YMLBase;
-import me.imlukas.prisoncore.utils.text.TextUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 
 /**
  * Parses and caches display items from config.

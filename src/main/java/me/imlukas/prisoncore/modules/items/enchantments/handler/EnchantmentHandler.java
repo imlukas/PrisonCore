@@ -1,8 +1,7 @@
 package me.imlukas.prisoncore.modules.items.enchantments.handler;
 
 import lombok.SneakyThrows;
-import me.imlukas.prisoncore.modules.items.ItemModule;
-import me.imlukas.prisoncore.modules.items.enchantments.Enchantment;
+import me.imlukas.prisoncore.modules.newitems.ItemModule;
 import me.imlukas.prisoncore.modules.items.enchantments.data.ParsedEnchantment;
 import me.imlukas.prisoncore.modules.items.enchantments.impl.AbstractEnchantment;
 import me.imlukas.prisoncore.modules.items.enchantments.registry.EnchantmentRegistry;
@@ -10,7 +9,6 @@ import me.imlukas.prisoncore.utils.item.ItemBuilder;
 import me.imlukas.prisoncore.utils.storage.YMLBase;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.plugin.java.JavaPlugin;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -18,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Supplier;
 
 public class EnchantmentHandler extends YMLBase {
 

@@ -1,7 +1,7 @@
 package me.imlukas.prisoncore.modules.items.items.command;
 
 import me.imlukas.prisoncore.PrisonCore;
-import me.imlukas.prisoncore.modules.items.ItemModule;
+import me.imlukas.prisoncore.modules.newitems.ItemModule;
 import me.imlukas.prisoncore.modules.items.items.cache.PrisonItemCache;
 import me.imlukas.prisoncore.modules.items.items.registry.PrisonItemRegistry;
 import me.imlukas.prisoncore.modules.items.items.impl.PrisonItem;

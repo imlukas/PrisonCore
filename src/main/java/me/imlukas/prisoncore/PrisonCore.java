@@ -4,7 +4,7 @@ import lombok.Getter;
 import me.imlukas.prisoncore.modules.AbstractModule;
 import me.imlukas.prisoncore.modules.database.DatabaseModule;
 import me.imlukas.prisoncore.modules.economy.EconomyModule;
-import me.imlukas.prisoncore.modules.items.ItemModule;
+import me.imlukas.prisoncore.modules.newitems.ItemModule;
 import me.imlukas.prisoncore.modules.ranking.RankingModule;
 import me.imlukas.prisoncore.utils.command.SimpleCommand;
 import me.imlukas.prisoncore.utils.command.impl.CommandManager;
