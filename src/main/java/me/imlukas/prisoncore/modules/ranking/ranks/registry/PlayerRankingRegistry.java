@@ -6,7 +6,7 @@ import me.imlukas.prisoncore.modules.ranking.RankingModule;
 import me.imlukas.prisoncore.modules.ranking.ranks.PlayerRanking;
 import me.imlukas.prisoncore.modules.ranking.prestige.data.PrestigeData;
 import me.imlukas.prisoncore.modules.ranking.ranks.data.RankData;
-import me.imlukas.prisoncore.utils.collection.CachedRegistry;
+import me.imlukas.prisoncore.utils.registry.CachedRegistry;
 import me.imlukas.prisoncore.utils.time.Time;
 
 import java.util.Map;

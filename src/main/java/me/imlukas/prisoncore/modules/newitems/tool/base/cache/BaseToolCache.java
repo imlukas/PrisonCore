@@ -1,7 +1,7 @@
 package me.imlukas.prisoncore.modules.newitems.tool.base.cache;
 
 import me.imlukas.prisoncore.modules.newitems.tool.base.BaseTool;
-import me.imlukas.prisoncore.utils.collection.CachedRegistry;
+import me.imlukas.prisoncore.utils.registry.CachedRegistry;
 import me.imlukas.prisoncore.utils.time.Time;
 
 import java.util.UUID;

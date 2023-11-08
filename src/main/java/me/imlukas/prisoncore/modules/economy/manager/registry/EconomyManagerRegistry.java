@@ -3,12 +3,10 @@ package me.imlukas.prisoncore.modules.economy.manager.registry;
 import me.imlukas.prisoncore.modules.economy.constants.EconomyType;
 import me.imlukas.prisoncore.modules.economy.manager.EconomyManager;
 import me.imlukas.prisoncore.modules.economy.manager.impl.BaseManager;
-import me.imlukas.prisoncore.utils.collection.DefaultRegistry;
+import me.imlukas.prisoncore.utils.registry.DefaultRegistry;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class EconomyManagerRegistry extends DefaultRegistry<EconomyType, BaseManager> {
 

@@ -1,4 +1,4 @@
-package me.imlukas.prisoncore.utils.collection;
+package me.imlukas.prisoncore.utils.registry;
 
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;

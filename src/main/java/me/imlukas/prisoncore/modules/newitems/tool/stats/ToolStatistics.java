@@ -2,73 +2,57 @@ package me.imlukas.prisoncore.modules.newitems.tool.stats;
 
 import me.imlukas.prisoncore.modules.newitems.ItemModule;
 import me.imlukas.prisoncore.modules.newitems.tool.stats.impl.AbstractToolStatistic;
-import me.imlukas.prisoncore.modules.newitems.tool.stats.impl.ToolStatistic;
 import me.imlukas.prisoncore.modules.newitems.tool.stats.registry.ToolStatisticRegistry;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ToolStatistics {
 
     private final ToolStatisticRegistry registry;
-    private final Map<ToolStatistic, Integer> statistics = new HashMap<>();
+    private final List<AbstractToolStatistic<?>> statistics = new ArrayList<>();
 
     public ToolStatistics(ItemModule module) {
         this.registry = module.getStatisticRegistry();
     }
 
-    public void track(ToolStatisticType statisticType) {
-        AbstractToolStatistic statistic = registry.get(statisticType);
 
-        statistics.putIfAbsent(new ToolStatistic(statistic), 0);
+    public <T extends AbstractToolStatistic<?>> T track(ToolStatisticType statisticType, int defaultValue) {
+        AbstractToolStatistic<?> statistic = registry.supply(statisticType);
+        statistics.add(statistic);
+        statistic.setTrackedValue(defaultValue);
+        return (T) statistic;
     }
 
-    public void track(ToolStatistic statistic) {
-        statistics.putIfAbsent(statistic, 0);
+    public <T extends AbstractToolStatistic<?>> T track(ToolStatisticType statisticType) {
+        return track(statisticType, 0);
     }
 
-    public void track(ToolStatisticType statisticType, int defaultValue) {
-        AbstractToolStatistic statistic = registry.get(statisticType);
-
-        statistics.putIfAbsent(new ToolStatistic(statistic), defaultValue);
+    public <T extends AbstractToolStatistic<?>> T track(AbstractToolStatistic<?> statistic) {
+        return track(statistic.getType());
     }
 
     public void untrack(ToolStatisticType statisticType) {
-        for (ToolStatistic toolStatistic : statistics.keySet()) {
-            if (toolStatistic.getType() == statisticType) {
-                statistics.remove(toolStatistic);
-            }
-        }
-    }
-
-    public void incrementBy(ToolStatisticType type, int value) {
-        ToolStatistic statistic = null;
-
-        for (ToolStatistic toolStatistic : statistics.keySet()) {
-            if (toolStatistic.getType() == type) {
-                statistic = toolStatistic;
-            }
-        }
-
-        if (statistic == null) {
-            throw new IllegalArgumentException("Statistic not tracked");
-        }
-
-
-        int newValue = statistics.getOrDefault(statistic, 0) + value;
-        statistics.put(statistic, newValue);
-    }
-
-    public void increment(ToolStatisticType type) {
-        incrementBy(type, 1);
+        statistics.removeIf(toolStatistic -> toolStatistic.getType() == statisticType);
     }
 
     public boolean isTracking(ToolStatisticType statisticType) {
-        for (ToolStatistic toolStatistic : statistics.keySet()) {
+        for (AbstractToolStatistic<?> toolStatistic : statistics) {
             if (toolStatistic.getType() == statisticType) {
                 return true;
             }
         }
         return false;
+    }
+
+    public <T extends AbstractToolStatistic<?>> T get(ToolStatisticType statisticType) {
+        for (AbstractToolStatistic<?> toolStatistic : statistics) {
+            if (toolStatistic.getType() == statisticType) {
+                return (T) toolStatistic;
+            }
+        }
+        return null;
     }
 }
