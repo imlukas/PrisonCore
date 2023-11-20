@@ -1,36 +1,34 @@
 package me.imlukas.prisoncore.modules.newitems.tool.stats;
 
 import me.imlukas.prisoncore.modules.newitems.ItemModule;
-import me.imlukas.prisoncore.modules.newitems.tool.stats.impl.AbstractToolStatistic;
+import me.imlukas.prisoncore.modules.newitems.tool.stats.impl.ToolStatistic;
 import me.imlukas.prisoncore.modules.newitems.tool.stats.registry.ToolStatisticRegistry;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class ToolStatistics {
 
     private final ToolStatisticRegistry registry;
-    private final List<AbstractToolStatistic<?>> statistics = new ArrayList<>();
+    private final List<ToolStatistic<?>> statistics = new ArrayList<>();
 
     public ToolStatistics(ItemModule module) {
         this.registry = module.getStatisticRegistry();
     }
 
 
-    public <T extends AbstractToolStatistic<?>> T track(ToolStatisticType statisticType, int defaultValue) {
-        AbstractToolStatistic<?> statistic = registry.supply(statisticType);
+    public <T extends ToolStatistic<?>> T track(ToolStatisticType statisticType, int defaultValue) {
+        ToolStatistic<?> statistic = registry.supply(statisticType);
         statistics.add(statistic);
         statistic.setTrackedValue(defaultValue);
         return (T) statistic;
     }
 
-    public <T extends AbstractToolStatistic<?>> T track(ToolStatisticType statisticType) {
+    public <T extends ToolStatistic<?>> T track(ToolStatisticType statisticType) {
         return track(statisticType, 0);
     }
 
-    public <T extends AbstractToolStatistic<?>> T track(AbstractToolStatistic<?> statistic) {
+    public <T extends ToolStatistic<?>> T track(ToolStatistic<?> statistic) {
         return track(statistic.getType());
     }
 
@@ -39,7 +37,7 @@ public class ToolStatistics {
     }
 
     public boolean isTracking(ToolStatisticType statisticType) {
-        for (AbstractToolStatistic<?> toolStatistic : statistics) {
+        for (ToolStatistic<?> toolStatistic : statistics) {
             if (toolStatistic.getType() == statisticType) {
                 return true;
             }
@@ -47,8 +45,8 @@ public class ToolStatistics {
         return false;
     }
 
-    public <T extends AbstractToolStatistic<?>> T get(ToolStatisticType statisticType) {
-        for (AbstractToolStatistic<?> toolStatistic : statistics) {
+    public <T extends ToolStatistic<?>> T get(ToolStatisticType statisticType) {
+        for (ToolStatistic<?> toolStatistic : statistics) {
             if (toolStatistic.getType() == statisticType) {
                 return (T) toolStatistic;
             }

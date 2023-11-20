@@ -14,3 +14,23 @@ vip-pickaxe:
 
 
 default-pickaxe:
+  type: PICKAXE
+  material: DIAMOND_PICKAXE
+  name: "&aDefault Pickaxe"
+  lore:
+    - "&7Default Pickaxe"
+
+  # Statistic type: [Filter]
+  statistics:
+    blocks_broken: [COBBLESTONE, STONE, ANDESITE]
+    mobs_killed: [ZOMBIE, SKELETON, CREEPER]
+
+default-pickaxe-2:
+  type: PICKAXE
+  material: IRON_PICKAXE
+  name: "&aDefault Pickaxe 2"
+  lore:
+    - "&7Default Pickaxe 2"
+  statistics:
+    extends: default-pickaxe # Uses the same statistics as default-pickaxe
+    blocks_walked: []

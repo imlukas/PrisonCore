@@ -14,6 +14,7 @@ import org.bukkit.entity.Player;
 
 import java.io.File;
 import java.util.Collection;
+import java.util.List;
 import java.util.function.Function;
 import java.util.function.UnaryOperator;
 import java.util.regex.Matcher;
@@ -37,34 +38,28 @@ public class MessagesFile extends YMLBase {
 
     }
 
-    private String setMessage(String name, UnaryOperator<String> action) {
-        if (!getConfiguration().contains("messages." + name))
+    private String setMessage(String name, Function<String, String> action) {
+        if (!getConfiguration().contains("messages." + name)) {
             return "";
-        msg = getMessage(name);
-        if (usePrefixConfig && !isLessIntrusive) {
-            msg = prefix + " " + arrow + " " + getMessage(name);
-        } else {
-            msg = msg.replace("%prefix%", prefix);
         }
+
+        msg = getMessage(name).replaceAll("%prefix%", prefix);
+
+        if (usePrefixConfig) {
+            msg = prefix + " " + getMessage(name);
+        }
+
         msg = action.apply(msg);
         return TextUtils.color(msg);
     }
-
 
     public void sendMessage(CommandSender sender, String name) {
         sendMessage(sender, name, (s) -> s);
     }
 
-
     @SafeVarargs
     public final <T extends CommandSender> void sendMessage(T sender, String name, Placeholder<T>... placeholders) {
-        sendMessage(sender, name, text -> {
-            for (Placeholder<T> placeholder : placeholders) {
-                text = placeholder.replace(text, sender);
-            }
-
-            return text;
-        });
+        sendMessage(sender, name, List.of(placeholders));
     }
 
     public final <T extends CommandSender> void sendMessage(T sender, String name, Collection<Placeholder<T>> placeholders) {
@@ -77,34 +72,37 @@ public class MessagesFile extends YMLBase {
         });
     }
 
+
     public void sendMessage(CommandSender sender, String name, UnaryOperator<String> action) {
         if (getConfiguration().isList("messages." + name)) {
-            for (String str : getConfiguration().getStringList("messages." + name)) {
-                msg = StringEscapeUtils.unescapeJava(str.replace("%prefix%", prefix));
-                msg = action.apply(msg);
-                sender.sendMessage(TextUtils.color(msg));
+            for (String message : getConfiguration().getStringList("messages." + name)) {
+                msg = message.replace("%prefix%", prefix);
+                msg = TextUtils.color(action.apply(msg));
+                sender.sendMessage(msg);
             }
             return;
         }
 
         msg = setMessage(name, action);
-        if (useActionBar && sender instanceof Player player && !isLessIntrusive) {
-            sendActionBarMessage(player, msg);
-            return;
-        }
         sender.sendMessage(msg);
-    }
-
-    public void sendActionBarMessage(Player player, String key) {
-        sendActionBarMessage(player, key, s -> s);
-    }
-
-    public void sendActionBarMessage(Player player, String key, UnaryOperator<String> action) {
-        player.spigot().sendMessage(ChatMessageType.ACTION_BAR, TextComponent.fromLegacyText(setMessage(key, action)));
     }
 
     public String getMessage(String name) {
         return getConfiguration().getString("messages." + name);
+    }
+
+    public String getMessage(String name, Placeholder<CommandSender>... placeholders) {
+        String message = getMessage(name);
+
+        if (message == null) {
+            return null;
+        }
+
+        for (Placeholder<CommandSender> placeholder : placeholders) {
+            message = placeholder.replace(message, null);
+        }
+
+        return message;
     }
 
 

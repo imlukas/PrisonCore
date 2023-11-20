@@ -10,15 +10,16 @@ import me.imlukas.prisoncore.modules.items.enchantments.impl.pickaxe.MoneyGiverE
 import me.imlukas.prisoncore.modules.items.enchantments.listeners.EnchantmentTrigger;
 import me.imlukas.prisoncore.modules.items.enchantments.handler.EnchantmentHandler;
 import me.imlukas.prisoncore.modules.items.enchantments.registry.EnchantmentRegistry;
-import me.imlukas.prisoncore.modules.items.items.cache.PrisonItemCache;
 import me.imlukas.prisoncore.modules.items.items.fetching.PrisonItemHandler;
 import me.imlukas.prisoncore.modules.items.items.registry.PrisonItemRegistry;
 import me.imlukas.prisoncore.modules.items.items.command.GiveItemCommand;
 import me.imlukas.prisoncore.modules.items.items.listener.ItemConnectionListener;
 import me.imlukas.prisoncore.modules.items.items.parser.ItemParser;
 import me.imlukas.prisoncore.modules.newitems.event.SimpleEventBus;
-import me.imlukas.prisoncore.modules.newitems.tool.base.cache.BaseToolCache;
+import me.imlukas.prisoncore.modules.newitems.tool.stats.ToolStatisticType;
+import me.imlukas.prisoncore.modules.newitems.tool.stats.impl.ToolStatistic;
 import me.imlukas.prisoncore.modules.newitems.tool.stats.registry.ToolStatisticRegistry;
+import org.bukkit.Material;
 
 @Getter
 public class ItemModule extends AbstractModule {
@@ -28,9 +29,7 @@ public class ItemModule extends AbstractModule {
     private EnchantmentRegistry enchantmentRegistry;
     private EnchantmentHandler enchantmentHandler;
 
-    private BaseToolCache toolCache;
     private PrisonItemHandler prisonItemHandler;
-
     private PrisonItemRegistry prisonItemRegistry;
 
     private ItemParser itemParser;
@@ -40,11 +39,11 @@ public class ItemModule extends AbstractModule {
 
     @Override
     public void onEnable() {
-
         eventBus = new SimpleEventBus(this);
-        toolCache = new BaseToolCache();
 
         statisticRegistry = new ToolStatisticRegistry();
+
+        statisticRegistry.register(ToolStatisticType.MINED_BLOCKS, () -> new ToolStatistic<Material>(ToolStatisticType.MINED_BLOCKS));
 
         prisonItemHandler = new PrisonItemHandler(this);
         prisonItemRegistry = new PrisonItemRegistry(this);

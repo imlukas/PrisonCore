@@ -7,6 +7,7 @@ import me.imlukas.prisoncore.utils.messages.MessagesFile;
 import me.imlukas.prisoncore.utils.storage.YMLBase;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.event.Listener;
+import org.bukkit.scheduler.BukkitScheduler;
 
 import java.io.File;
 
@@ -28,6 +29,7 @@ public abstract class AbstractModule {
     @SneakyThrows
     public void saveDefaultConfig(boolean existsOnSource) {
         File configFile = new File(dataFolder, "config.yml");
+
         config = new YMLBase(plugin, configFile, existsOnSource);
     }
 
